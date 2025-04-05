@@ -11,6 +11,9 @@ class SingleLinkedList(object):
         self._size: int = 0
         self._head: Optional[LinkedListNode] = None
 
+    def __repr__(self):
+        pass
+
     def __len__(self) -> int:
         return self._size
 
@@ -28,7 +31,10 @@ class SingleLinkedList(object):
         pass
 
     @DataUtils.requires_not_null
-    def find_value_by_index(self, index: int) -> Optional[Any]:
+    def at(self, index: int) -> Optional[int]:
+        """
+        at
+        """
         pass
 
     @DataUtils.requires_not_null
@@ -41,11 +47,13 @@ class SingleLinkedList(object):
     def insert_at(self, element: Any, index: int):
         pass
 
-    @DataUtils.requires_not_null
-    def at(self, index: int) -> Optional[int]:
+    def pop_front(self):
         pass
 
-    def __repr__(self):
+    def pop_at(self, index: int):
+        pass
+
+    def reverse(self):
         pass
 
     @property
