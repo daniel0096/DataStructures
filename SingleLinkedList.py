@@ -1,4 +1,4 @@
-from typing import Optional, TypeVar, Generic, Iterator
+from typing import Optional, TypeVar, Generic, Iterator, Union
 import DataUtils
 
 T = TypeVar('T')
@@ -102,7 +102,7 @@ class SingleLinkedList(Generic[T]):
         return True
 
     @DataUtils.requires_not_null
-    def __getitem__(self, index: int) -> T:
+    def __getitem__(self, data: Union[int, slice, None]) -> T:
         """
         Returns an item held by linked list node based on given index.
 
@@ -111,15 +111,28 @@ class SingleLinkedList(Generic[T]):
         :return: Item held by the node at the given index.
         :rtype: T
         """
+        if isinstance(data, slice):
+            start, stop, step = data.indices(self._size)
+            result = []
+            current = self._head
+            i = 0
+            while current and i < stop:
+                if i >= start and (i - start) % step == 0:
+                    result.append(current.item)
+                current = current.nextNode
+                i += 1
+            return result
+        elif isinstance(data, int):
+            self._validate_index(data)
+ 
+            current = self._head
 
-        self._validate_index(index)
+            for _ in range(data):
+                current = current.nextNode
 
-        current = self._head
-
-        for _ in range(index):
-            current = current.nextNode
-
-        return current.item
+            return current.item
+        else:
+            raise DataUtils.LinkedListException('Expected int or slice.')
 
     @DataUtils.requires_not_null
     def __setitem__(self, index: int, item: T):
